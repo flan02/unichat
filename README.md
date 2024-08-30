@@ -8,4 +8,4 @@
 - React ^18
 - Tailwindcss ^3.4
 
-![Modern messaging app](https://github.com/flan02/unichat/blob/main/public/unichat.png)
+![Modern messaging app](https://github.com/flan02/unichat/blob/main/public/unichat-readme.png)
