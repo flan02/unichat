@@ -24,7 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <MaxWidthWrapper className="h-screen grid place-content-center">
+          <MaxWidthWrapper className="h-screen grid place-content-center bg-rose-200/30">
             {children}
           </MaxWidthWrapper>
         </body>

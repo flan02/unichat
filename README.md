@@ -7,6 +7,8 @@
 - Nextjs 14.2.7
 - React ^18
 - Tailwindcss ^3.4
-- (microsoft designer with AI)[https://designer.microsoft.com/]
+- (Microsoft designer with AI)[https://designer.microsoft.com/]
+- Clerk
+- (Stream)[https://getstream.io/]
 
 ![Modern messaging app](https://github.com/flan02/unichat/blob/main/public/unichat-readme.png)
