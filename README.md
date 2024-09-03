@@ -10,5 +10,6 @@
 - (Microsoft designer with AI)[https://designer.microsoft.com/]
 - Clerk
 - (Stream)[https://getstream.io/]
+- (T3)[https://env.t3.gg/docs/nextjs]
 
 ![Modern messaging app](https://github.com/flan02/unichat/blob/main/public/unichat-readme.png)
