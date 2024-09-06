@@ -1,5 +1,5 @@
 import { Channel, ChannelHeader, ChannelList, Chat, LoadingIndicator, MessageInput, MessageList, Thread, Window } from "stream-chat-react"
-import Menubar from "@/components/custom/chat/Menubar"
+
 
 interface ChatChannelProps {
   show: boolean
@@ -8,7 +8,7 @@ interface ChatChannelProps {
 
 const ChatChannel = ({ show, hideChannelOnThread }: ChatChannelProps) => {
   return (
-    <div className={`size-full ${show ? "block" : "hidden"}`}>
+    <div className={`w-full h-screen ${show ? "block" : "hidden"}`}>
       <Channel>
         <Window hideOnThread={hideChannelOnThread}>
           <ChannelHeader />
