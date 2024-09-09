@@ -21,7 +21,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
   const [users, setUsers] = useState<(UserResponse & UserCustom)[]>()
 
   const loadInitUsers = async () => {
-    // * await
+    // await new Promise((resolve) => setTimeout(resolve, 1000)) // ? Artificial delay of 1s.
 
     try {
       const response = await client.queryUsers({
@@ -66,11 +66,14 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
       <div className="flex items-center gap-3 p-3 text-lg font-bold">
         <ArrowLeft className="cursor-pointer" onClick={onClose} /> Users
       </div>
-      {
-        users?.map((user) => (
-          <UserResult user={user} onUserClicked={startChatWithUser} key={user.id} />
-        )) // ? This is the return value that why I used parentheses and not curly braces
-      }
+      <div>
+        {!users && <LoadingUsers />}
+        {
+          users?.map((user) => (
+            <UserResult user={user} onUserClicked={startChatWithUser} key={user.id} />
+          )) // ? This is the return value that why I used parentheses and not curly braces
+        }
+      </div>
     </div>
   )
 }
