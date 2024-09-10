@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react"
 import { Avatar, useChatContext, LoadingChannels as LoadingUsers } from "stream-chat-react"
 import LoadingButton from "@/components/reutilizable/LoadingButton"
 import useDebounce from "@/hooks/useDebounce"
+import StartGroupChatHeader from "./StartGroupChatHeader"
 
 interface UserMenuProps {
   loggedInUser: UserResource
@@ -21,6 +22,7 @@ export type UserCustom = {
 const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) => {
   const { client, setActiveChannel } = useChatContext() // This const is accesible from the Chat component
   const [users, setUsers] = useState<(UserResponse & UserCustom)[]>()
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([])
   const [searchInput, setSearchInput] = useState<string>("")
   const searchInputDebounced = useDebounce(searchInput, 250)
   const [moreUsersLoading, setMoreUsersLoading] = useState<boolean>(false)
@@ -29,15 +31,15 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
   const pageSize = 10
 
   const loadInitUsers = async () => {
-    // await new Promise((resolve) => setTimeout(resolve, 1000)) // ? Artificial delay of 1s.
     setUsers(undefined)
     setEndOfPaginationReached(undefined)
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // ? Artificial delay of 1s.
 
     try {
       const response = await client.queryUsers({
         id: { $ne: loggedInUser.id },
-        ...(searchInput
-          ? { $or: [{ name: { $autocomplete: searchInput } }, { id: { $autocomplete: searchInput } }] }
+        ...(searchInputDebounced
+          ? { $or: [{ name: { $autocomplete: searchInputDebounced } }, { id: { $autocomplete: searchInputDebounced } }] }
           : {}
         )
       }, {
@@ -58,7 +60,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
 
   useEffect(() => {
     loadInitUsers()
-  }, [client, loggedInUser.id, searchInput])
+  }, [client, loggedInUser.id, searchInputDebounced])
 
   async function loadMoreUsers() {
 
@@ -71,8 +73,8 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
         $and: [
           { id: { $ne: loggedInUser.id } },
           { id: { $gt: lastUserId } },
-          searchInput
-            ? { $or: [{ name: { $autocomplete: searchInput } }, { id: { $autocomplete: searchInput } }] }
+          searchInputDebounced
+            ? { $or: [{ name: { $autocomplete: searchInputDebounced } }, { id: { $autocomplete: searchInputDebounced } }] }
             : {}
 
         ]
@@ -106,6 +108,20 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
       handleChannelSelected(channel)
     } catch (error) {
       console.error(error)
+      alert("Error creating channel")
+    }
+  }
+
+  async function startGroupChat(members: string, name?: string) {
+    try {
+      const channel = client.channel("messaging", {
+        members: [members],
+        name
+      })
+      await channel.create()
+      handleChannelSelected(channel)
+    } catch (error) {
+      console.error(error)
       alert("An error occurred while starting a chat with the user")
     }
   }
@@ -114,7 +130,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
     <div className="str-chat absolute z-10 w-full h-screen bg-slate-100 border-e border-e-[#DBDDE1]">
       <div className="flex flex-col p-3">
 
-        <div className="mb-3 flex items-center gap-3 p-3 text-lg font-bold">
+        <div className="mb-3 flex items-center gap-3 text-lg font-bold">
           <ArrowLeft className="cursor-pointer" onClick={onClose} /> Users
         </div>
         <input
@@ -125,15 +141,43 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
           className="w-full p-3 border-b border-e-[#DBDDE1]"
         />
       </div>
+      {
+        selectedUsers.length > 0 && (
+          <StartGroupChatHeader
+            onConfirm={(name) => startGroupChat([loggedInUser.id, ...selectedUsers].join(','), name)}
+            onClearSelection={() => setSelectedUsers([])}
+          />
+        )
+      }
       <div>
         {
-          !users && <LoadingUsers />
-        }
-        {
           users?.map((user) => (
-            <UserResult user={user} onUserClicked={startChatWithUser} key={user.id} />
+            <UserResult
+              user={user}
+              onUserClicked={startChatWithUser}
+              key={user.id}
+              selected={selectedUsers.includes(user.id)}
+              onChangeSelected={(selected) => setSelectedUsers(
+                selected
+                  ? [...selectedUsers, user.id]
+                  : selectedUsers.filter((id) => id !== user.id)
+              )}
+            />
           )) // ? This is the return value that why I used parentheses and not curly braces
         }
+        { /* JSON.stringify(selectedUsers, null, 2) */}
+
+        <div className="px-3">
+          {
+            !users && !searchInputDebounced && <LoadingUsers />
+          }
+          {
+            !users && searchInputDebounced && "Searching..."
+          }
+          {
+            users?.length === 0 && <div>No users found</div>
+          }
+        </div>
         {
           endOfPaginationReached === false && <LoadingButton onClick={loadMoreUsers} loading={moreUsersLoading} className="m-auto mb-3 w-[80%]" >Load more users</LoadingButton>
         }
