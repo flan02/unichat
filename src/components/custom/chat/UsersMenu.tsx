@@ -112,22 +112,22 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
     }
   }
 
-  async function startGroupChat(members: string, name?: string) {
+  async function startGroupChat(members: string[], name?: string) {
     try {
       const channel = client.channel("messaging", {
-        members: [members],
+        members,
         name
       })
       await channel.create()
       handleChannelSelected(channel)
     } catch (error) {
       console.error(error)
-      alert("An error occurred while starting a chat with the user")
+      alert("An error occurred while starting a group chat")
     }
   }
 
   return (
-    <div className="str-chat absolute z-10 w-full h-screen bg-slate-100 border-e border-e-[#DBDDE1]">
+    <div className="overflow-y-auto str-chat absolute z-10 w-full h-screen bg-slate-100 border-e border-e-[#DBDDE1]">
       <div className="flex flex-col p-3">
 
         <div className="mb-3 flex items-center gap-3 text-lg font-bold">
@@ -144,7 +144,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
       {
         selectedUsers.length > 0 && (
           <StartGroupChatHeader
-            onConfirm={(name) => startGroupChat([loggedInUser.id, ...selectedUsers].join(','), name)}
+            onConfirm={(name) => startGroupChat([loggedInUser.id, ...selectedUsers], name)}
             onClearSelection={() => setSelectedUsers([])}
           />
         )
