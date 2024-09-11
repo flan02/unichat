@@ -17,7 +17,7 @@ const Button = (props: ComponentPropsWithoutRef<"button">) => {
 // * Advanced way with generics and union types
 const Button = <T extends React.ElementType = "button">({ as, ...props }: ButtonProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>) => { // Omit removes duplicates from the union of the two types
   const Component = as || "button" // ? If as = Link it will render a Link component with the props passed to the Button component
-  return <Component {...props} className={cn("bg-pink-300 text-slate-200 p-[0.875rem] rounded-md active:bg-pink-400 disabled:bg-gray-200 flex items-center justify-center gap-2", props.className)} />
+  return <Component {...props} className={cn("bg-pink-300 text-slate-200 p-[0.875rem] rounded-md active:bg-pink-400 disabled:bg-gray-200 dark:disabled:bg-gray-600 flex items-center justify-center gap-2", props.className)} />
 
 }
 

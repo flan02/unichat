@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import MaxWidthWrapper from "@/components/reutilizable/MaxWidthWrapper";
+import ThemeProvider from "./ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <MaxWidthWrapper className="h-screen flex justify-center items-center !px-0 min-w-full bg-rose-200/30">
-            {children}
-          </MaxWidthWrapper>
+          <ThemeProvider>
+            <MaxWidthWrapper className="h-screen flex justify-center items-center !px-0 min-w-full bg-rose-200/30">
+              {children}
+            </MaxWidthWrapper>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

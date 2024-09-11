@@ -1,16 +1,16 @@
 'use client'
 import ChatChannel from "@/components/custom/chat/ChatChannel"
 import ChatSidebar from "@/components/custom/chat/ChatSidebar"
-
 import useInitializeChatClient from "@/app/chat/useInitializeChatClient"
 import { useUser } from "@clerk/nextjs"
 import { Menu, X } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { Chat, LoadingIndicator } from "stream-chat-react"
+import { Chat, LoadingIndicator, Streami18n } from "stream-chat-react"
 import useWindowSize from "@/hooks/useWindowSize"
 import { mdBreakpoint } from "@/utils/tailwind"
+import { useTheme } from "../ThemeProvider"
 
-
+const i18Instance = new Streami18n({ language: "en" })
 
 type Props = {}
 
@@ -18,6 +18,7 @@ type Props = {}
 const ChatPage = (props: Props) => {
   const chatClient = useInitializeChatClient()
   const { user } = useUser()
+  const { theme } = useTheme()
   const [chatSidebarOpen, setChatSidebarOpen] = useState<boolean>(true)
   const windowSize = useWindowSize()
   const isLargeScreen = windowSize.width >= mdBreakpoint
@@ -34,18 +35,17 @@ const ChatPage = (props: Props) => {
 
 
   if (!chatClient || !user) return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-black w-full">
       <LoadingIndicator size={40} />
     </div>
   )
 
 
-
   return (
-    <section className="border border-slate-200 bg-gray-100 h-screen min-w-full sm:min-w-full">
+    <section className="border border-slate-200 bg-gray-100 text-black dark:bg-black dark:text-white h-screen min-w-full sm:min-w-full">
       <div className="">
 
-        <Chat client={chatClient} theme="messaging light">
+        <Chat client={chatClient} i18nInstance={i18Instance} theme={theme === 'dark' ? "str-chat__theme-dark" : "str-chat__theme-light"}>
           <div className="flex justify-center border-b border-b-[#dbdde1] p-3 md:hidden">
             <button onClick={() => { setChatSidebarOpen(!chatSidebarOpen) }}>
               {!chatSidebarOpen ? (

@@ -28,7 +28,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
   const [moreUsersLoading, setMoreUsersLoading] = useState<boolean>(false)
   const [endOfPaginationReached, setEndOfPaginationReached] = useState<boolean | undefined>(undefined)
 
-  const pageSize = 10
+  const pageSize = 5
 
   const loadInitUsers = async () => {
     setUsers(undefined)
@@ -127,8 +127,8 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
   }
 
   return (
-    <div className="overflow-y-auto str-chat absolute z-10 w-full h-screen bg-slate-100 border-e border-e-[#DBDDE1]">
-      <div className="flex flex-col p-3">
+    <div className="overflow-y-auto str-chat absolute z-10 w-full h-screen bg-slate-100 border-e border-e-[#DBDDE1] dark:border-e-gray-800 dark:bg-[#17191c]">
+      <div className="flex flex-col p-3 w-full">
 
         <div className="mb-3 flex items-center gap-3 text-lg font-bold">
           <ArrowLeft className="cursor-pointer" onClick={onClose} /> Users
@@ -138,7 +138,7 @@ const UsersMenu = ({ loggedInUser, onClose, onChannelSelect }: UserMenuProps) =>
           placeholder="Search users"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          className="w-full p-3 border-b border-e-[#DBDDE1]"
+          className="border border-gray-300 px-4 py-2 rounded-full bg-transparent dark:border-gray-800 dark:text-white"
         />
       </div>
       {

@@ -10,11 +10,11 @@ interface StartGroupChatHeaderProps {
 const StartGroupChatHeader = ({ onConfirm, onClearSelection }: StartGroupChatHeaderProps) => {
   const [groupChatNameInput, setGroupChatNameInput] = useState<string>("")
   return (
-    <div className="sticky top-0 z-10 flex flex-col gap-3 bg-white p-3 shadow-sm">
+    <div className="sticky top-0 z-10 flex flex-col gap-3 bg-white p-3 shadow-sm dark:bg-[#17191c]">
       <input
         type="text"
         placeholder="Group name"
-        className="rounded border border-gray-300 p-2"
+        className="rounded border border-gray-300 p-2 dark:bg-[#17191c] dark:border-gray-700 dark:text-white"
         value={groupChatNameInput}
         onChange={(e) => setGroupChatNameInput(e.target.value)}
       />

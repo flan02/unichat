@@ -14,7 +14,7 @@ const UserResult = ({ user, onUserClicked, selected, onChangeSelected }: UserRes
   return (
     <button
       onClick={() => onUserClicked(user.id)}
-      className="mb-3 w-full flex items-center p-2 gap-2 hover:bg-[#e9eaed]" >
+      className="mb-3 w-full flex items-center p-2 gap-2 hover:bg-[#e9eaed] dark:hover:bg-[#1c1e22]" >
       <input
         type="checkbox"
         className="mx-1 scale-125"

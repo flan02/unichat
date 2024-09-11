@@ -20,6 +20,7 @@
 
 .dark .str-chat {
   --str-chat__disabled-color: theme(colors.gray.600);
+  --str-chat__background-color: #17191c;
 }
 
 .str-chat * {
