@@ -12,4 +12,7 @@
 - (Stream)[https://getstream.io/]
 - (T3)[https://env.t3.gg/docs/nextjs]
 
+Auxiliary tools:
+Run [npx web-push generate-vapid-keys] to generate the VAPID keys for the push notifications. (will obtain the public and private keys)
+
 ![Modern messaging app](https://github.com/flan02/unichat/blob/main/public/unichat-readme.png)

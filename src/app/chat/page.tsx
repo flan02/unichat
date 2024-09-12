@@ -9,6 +9,7 @@ import { Chat, LoadingIndicator, Streami18n } from "stream-chat-react"
 import useWindowSize from "@/hooks/useWindowSize"
 import { mdBreakpoint } from "@/utils/tailwind"
 import { useTheme } from "../ThemeProvider"
+import { registerServiceWorker } from "@/utils/serviceWorker"
 
 const i18Instance = new Streami18n({ language: "en" })
 
@@ -33,6 +34,16 @@ const ChatPage = (props: Props) => {
     setChatSidebarOpen(false)
   }, [])
 
+  useEffect(() => {
+    async function setUpServiceWorker() {
+      try {
+        await registerServiceWorker()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    setUpServiceWorker()
+  }, [])
 
   if (!chatClient || !user) return (
     <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-black w-full">

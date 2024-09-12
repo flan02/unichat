@@ -1,11 +1,15 @@
 import { env } from "@/env";
 import { getReadyServiceWorker } from "@/utils/serviceWorker";
 
+
+
 export async function getCurrentPushSubscription(): Promise<PushSubscription | null> {
   const sw = await getReadyServiceWorker();
   return sw.pushManager.getSubscription();
 }
 
+
+// TODO - Register push notifications
 export async function registerPushNotifications() {
   if (!("PushManager" in window)) {
     throw Error("Push notifications are not supported by this browser");
@@ -27,6 +31,10 @@ export async function registerPushNotifications() {
   await sendPushSubscriptionToServer(subscription);
 }
 
+
+
+
+// TODO - Unregister push notifications
 export async function unregisterPushNotifications() {
   const existingSubscription = await getCurrentPushSubscription();
 
@@ -39,6 +47,9 @@ export async function unregisterPushNotifications() {
   await existingSubscription.unsubscribe();
 }
 
+
+
+// TODO - Send push subscription to server
 export async function sendPushSubscriptionToServer(
   subscription: PushSubscription
 ) {
@@ -52,6 +63,9 @@ export async function sendPushSubscriptionToServer(
   }
 }
 
+
+
+// TODO - Delete push subscription from server
 export async function deletePushSubscriptionFromServer(
   subscription: PushSubscription
 ) {
