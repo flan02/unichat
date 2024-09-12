@@ -10,6 +10,7 @@ import useWindowSize from "@/hooks/useWindowSize"
 import { mdBreakpoint } from "@/utils/tailwind"
 import { useTheme } from "../ThemeProvider"
 
+
 const i18Instance = new Streami18n({ language: "en" })
 
 type Props = {}
