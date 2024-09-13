@@ -10,6 +10,7 @@ import useWindowSize from "@/hooks/useWindowSize"
 import { mdBreakpoint } from "@/utils/tailwind"
 import { useTheme } from "../ThemeProvider"
 import { registerServiceWorker } from "@/utils/serviceWorker"
+import { getCurrentPushSubscription, sendPushSubscriptionToServer } from "@/notifications/pushService"
 
 const i18Instance = new Streami18n({ language: "en" })
 
@@ -29,11 +30,6 @@ const ChatPage = (props: Props) => {
 
   }, [windowSize.width])
 
-  // ? This handle wraps the change of the chatSidebarOpen state avoiding unnecessary re-renders when its value changes too often.
-  const handleSidebarOnClose = useCallback(() => {
-    setChatSidebarOpen(false)
-  }, [])
-
   useEffect(() => {
     async function setUpServiceWorker() {
       try {
@@ -44,6 +40,26 @@ const ChatPage = (props: Props) => {
     }
     setUpServiceWorker()
   }, [])
+
+  useEffect(() => {
+    async function syncPushSubscription() {
+      try {
+        const subscription = await getCurrentPushSubscription()
+        if (subscription) {
+          await sendPushSubscriptionToServer(subscription)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    syncPushSubscription()
+  }, [])
+
+  // ? This handle wraps the change of the chatSidebarOpen state avoiding unnecessary re-renders when its value changes too often.
+  const handleSidebarOnClose = useCallback(() => {
+    setChatSidebarOpen(false)
+  }, [])
+
 
   if (!chatClient || !user) return (
     <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-black w-full">

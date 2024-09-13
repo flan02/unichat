@@ -50,9 +50,7 @@ export async function unregisterPushNotifications() {
 
 
 // TODO - Send push subscription to server
-export async function sendPushSubscriptionToServer(
-  subscription: PushSubscription
-) {
+export async function sendPushSubscriptionToServer(subscription: PushSubscription) {
   const response = await fetch("/api/register-push", {
     method: "POST",
     body: JSON.stringify(subscription),
@@ -66,9 +64,7 @@ export async function sendPushSubscriptionToServer(
 
 
 // TODO - Delete push subscription from server
-export async function deletePushSubscriptionFromServer(
-  subscription: PushSubscription
-) {
+export async function deletePushSubscriptionFromServer(subscription: PushSubscription) {
   const response = await fetch("/api/register-push", {
     method: "DELETE",
     body: JSON.stringify(subscription),
