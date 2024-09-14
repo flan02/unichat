@@ -11,13 +11,20 @@ import { mdBreakpoint } from "@/utils/tailwind"
 import { useTheme } from "../ThemeProvider"
 import { registerServiceWorker } from "@/utils/serviceWorker"
 import { getCurrentPushSubscription, sendPushSubscriptionToServer } from "@/notifications/pushService"
+import PushMessageListener from "@/components/custom/chat/PushMessageListener"
+
+interface ChatPageProps {
+  searchParams: {
+    channelId?: string
+  }
+}
 
 const i18Instance = new Streami18n({ language: "en" })
 
-type Props = {}
 
 
-const ChatPage = (props: Props) => {
+
+const ChatPage = ({ searchParams: { channelId } }: ChatPageProps) => {
   const chatClient = useInitializeChatClient()
   const { user } = useUser()
   const { theme } = useTheme()
@@ -55,6 +62,13 @@ const ChatPage = (props: Props) => {
     syncPushSubscription()
   }, [])
 
+  // ? Removes the searchParams from the URL when we are redirected to the chat page after clicking a notification.
+  useEffect(() => {
+    if (channelId) {
+      window.history.replaceState(null, "", "/chat")
+    }
+  }, [channelId])
+
   // ? This handle wraps the change of the chatSidebarOpen state avoiding unnecessary re-renders when its value changes too often.
   const handleSidebarOnClose = useCallback(() => {
     setChatSidebarOpen(false)
@@ -85,9 +99,15 @@ const ChatPage = (props: Props) => {
             </button>
           </div>
           <div className={`flex h-full overflow-y-auto`}>
-            <ChatSidebar user={user} show={isLargeScreen || chatSidebarOpen} onClose={handleSidebarOnClose} />
+            <ChatSidebar
+              user={user}
+              show={isLargeScreen || chatSidebarOpen}
+              onClose={handleSidebarOnClose}
+              customActiveChannel={channelId}
+            />
             <ChatChannel show={isLargeScreen || !chatSidebarOpen} hideChannelOnThread={!isLargeScreen} />
           </div>
+          <PushMessageListener />
         </Chat>
 
       </div>

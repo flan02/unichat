@@ -1,4 +1,5 @@
 import { Channel, ChannelHeader, ChannelList, Chat, LoadingIndicator, MessageInput, MessageList, Thread, Window } from "stream-chat-react"
+import CustomChannelHeader from "./CustomChannelHeader"
 
 
 interface ChatChannelProps {
@@ -11,7 +12,7 @@ const ChatChannel = ({ show, hideChannelOnThread }: ChatChannelProps) => {
     <div className={`w-full h-screen ${show ? "block" : "hidden"}`}>
       <Channel>
         <Window hideOnThread={hideChannelOnThread}>
-          <ChannelHeader />
+          <CustomChannelHeader />
           <MessageList />
           <MessageInput />
         </Window>

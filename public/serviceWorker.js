@@ -8,6 +8,7 @@ const sw = /** @type {ServiceWorkerGlobalScope & typeof globalThis} */ (
   globalThis
 );
 
+// TODO - Handle push event
 sw.addEventListener("push", (event) => {
   const message = event.data?.json();
   const { title, body, icon, image, channelId } = message;
@@ -26,13 +27,15 @@ sw.addEventListener("push", (event) => {
       }
     }
 
+    let notificationTag = channelId || "default-tag";
+
     await sw.registration.showNotification(title, {
       body,
       icon,
       image,
       badge: "/unichat.png",
       actions: [{ title: "Open chat", action: "open_chat" }],
-      tag: channelId,
+      tag: "default-tag",
       renotify: true,
       data: { channelId },
     });
@@ -41,6 +44,7 @@ sw.addEventListener("push", (event) => {
   event.waitUntil(handlePushEvent());
 });
 
+// TODO - Handle notification click
 sw.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
   notification.close();

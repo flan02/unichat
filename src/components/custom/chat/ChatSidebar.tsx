@@ -1,5 +1,5 @@
 
-import { ChannelList, ChannelPreview, ChannelPreviewMessenger, ChannelPreviewUIComponentProps } from "stream-chat-react"
+import { ChannelList, ChannelPreviewMessenger, ChannelPreviewUIComponentProps } from "stream-chat-react"
 import Menubar from "./Menubar"
 import { UserResource } from "@clerk/types"
 import { useCallback, useEffect, useState } from "react"
@@ -10,9 +10,10 @@ interface ChatSidebarProps {
   user: UserResource
   show: boolean
   onClose: () => void
+  customActiveChannel?: string
 }
 
-const ChatSidebar = ({ user, show, onClose }: ChatSidebarProps) => {
+const ChatSidebar = ({ user, show, onClose, customActiveChannel }: ChatSidebarProps) => {
   const [usersMenuOpen, setUsersMenuOpen] = useState<boolean>(false)
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const ChatSidebar = ({ user, show, onClose }: ChatSidebarProps) => {
           }
         }}
         Preview={ChannelPreviewCustom}
+        customActiveChannel={customActiveChannel}
       />
     </div>
   )
