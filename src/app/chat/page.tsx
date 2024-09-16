@@ -25,6 +25,7 @@ const i18Instance = new Streami18n({ language: "en" })
 
 
 const ChatPage = ({ searchParams: { channelId } }: ChatPageProps) => {
+  console.log("channelId: ", channelId);
   const chatClient = useInitializeChatClient()
   const { user } = useUser()
   const { theme } = useTheme()
@@ -68,6 +69,7 @@ const ChatPage = ({ searchParams: { channelId } }: ChatPageProps) => {
       window.history.replaceState(null, "", "/chat")
     }
   }, [channelId])
+
 
   // ? This handle wraps the change of the chatSidebarOpen state avoiding unnecessary re-renders when its value changes too often.
   const handleSidebarOnClose = useCallback(() => {
@@ -116,10 +118,3 @@ const ChatPage = ({ searchParams: { channelId } }: ChatPageProps) => {
 }
 
 export default ChatPage
-
-/* 
-
-<UserButton afterSignOutUrl="/" />
-<Button as={SignOutButton} />
-
-*/

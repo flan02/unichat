@@ -10,7 +10,8 @@ export default function Home() {
       <Icons.unichatLogo width={150} height={150} />
       <br />
       <h1 className="text-pink-300 text-5xl md:text-6xl font-bold mb-1">unichat</h1>
-      <p className="mb-10 text-xs md:text-sm text-slate-400">App de mensajeria instantanea privada y segura. Rara como un unicornio</p>
+      <p className="text-xs md:text-sm text-slate-400">App de mensajeria instantanea privada y segura. </p>
+      <p className="mb-10 text-xs md:text-sm text-slate-400">Rara como un unicornio</p>
       <Button as={Link} href="/chat" className="">
         Empieza Ya!
         <ArrowRight />

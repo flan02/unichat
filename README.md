@@ -12,7 +12,7 @@
 - (Stream)[https://getstream.io/]
 - (T3)[https://env.t3.gg/docs/nextjs]
 - Webhooks
-- (Expose local services over TLS online)[docs.srv.us]
+- (Expose local services over TLS online)[docs.srv.us] (ssh srv.us -R 1:localhost:3000 -R 2:192.168.0.1:80)
 - (Organize JSON code)[https://jsonformatter.org/#google_vignette]
 - (Convert code between different formats)[https://transform.tools/json-to-typescript]
 - svix: Service that Clerk uses for its webhooks

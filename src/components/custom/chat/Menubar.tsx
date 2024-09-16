@@ -14,7 +14,7 @@ const Menubar = ({ onUserMenuClick }: MenuBarProps) => {
   const { theme } = useTheme()
   return (
     <div className="p-3 flex items-center justify-between gap-3 bg-white border-e border-e-[#DBDDE1] dark:bg-[#17191c] dark:border-e-gray-800">
-      <UserButton afterSignOutUrl="/" appearance={{ baseTheme: theme === "dark" ? dark : undefined }} />
+      <UserButton signInUrl="/chat" appearance={{ baseTheme: theme === "dark" ? dark : undefined }} />
       <div className="flex gap-6">
         <PushSubscriptionToggleButton />
         <span title="Show users">
